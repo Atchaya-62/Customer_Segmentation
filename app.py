@@ -15,18 +15,20 @@ clusters=joblib.load("clusters.pkl")
 cluster_labels = {
     0: "Budget Customers",          
     1: "Premium Customers",         
-    2: "Careful High Earners",      
-    3: "Value Seekers",             
+    2: "Value Seekers",              
 }
 
+gender = st.selectbox("Gender", ["Male", "Female"])
+region = st.selectbox("Region", ["Rural","Urban"])
 income = st.number_input("Income", min_value=1, max_value=200, value=20)
 spending = st.number_input("Spending Score", min_value=1, max_value=200, value=15)
 
 if st.button("Predict Cluster"):
+    gender_code = 1 if gender == "Male" else 0 
+    region_urban = 1 if region == "Urban" else 0
+    new_data = pd.DataFrame([[gender_code, region_urban, income, spending]],
+                            columns=["Gender_Code", "Region", "Income", "Spending"])
 
-    
-    new_data = pd.DataFrame([[income, spending]], columns=["Income", "Spending"])
-  
     scaled = scaler.transform(new_data)
     
     
